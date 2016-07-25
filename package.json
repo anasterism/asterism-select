@@ -1,0 +1,27 @@
+{
+  "name": "asterism-select",
+  "version": "0.9.0",
+  "description": "Intuitive custom select element written in pure javascript.",
+  "main": "select.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anasterism/asterism-select.git"
+  },
+  "author": "An Asterism <hello@anasterism.com> (http://www.anasterism.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anasterism/asterism-select/issues"
+  },
+  "homepage": "https://github.com/anasterism/asterism-select#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-jshint": "^2.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-ruby-sass": "^2.0.6",
+    "gulp-uglify": "^1.5.4",
+    "jshint": "^2.9.2"
+  }
+}
