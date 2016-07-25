@@ -1,12 +1,13 @@
 var Select = function(target) {
 
-	this.target  = null;
-	this.select  = null;
-	this.display = null;
-	this.list    = null;
-	this.options = [];
-	this.isLarge = false;
-	this.value   = null;
+	this.target   = null;
+	this.select   = null;
+	this.display  = null;
+	this.list     = null;
+	this.options  = [];
+	this.isLarge  = false;
+	this.value    = null;
+	this.selected = null;
 
 	this.init = function() {
 		switch(typeof target) {
@@ -40,8 +41,9 @@ var Select = function(target) {
 		this.buildList();
 
 		if(this.options.length) {
-			this.value = this.options[this.target.selectedIndex];
-			this.display.innerHTML = this.value.innerHTML;
+			this.value = this.options[this.target.selectedIndex].getAttribute('data-value');
+			this.selected = this.options[this.target.selectedIndex];
+			this.display.innerHTML = this.selected.innerHTML;
 		}
 
 		if(this.options.length > 6) {
@@ -63,11 +65,11 @@ var Select = function(target) {
 
 	this.buildFilter = function() {
 		var wrapper = document.createElement('div');
-		    wrapper.classList.add('filter')
+		    wrapper.classList.add('filter');
 
 		this.filter = document.createElement('input');
 		this.filter.type = 'text';
-		this.filter.setAttribute('placeholder','Filter List')
+		this.filter.setAttribute('placeholder','Filter List');
 		this.filter.addEventListener('keyup', this.handleFilterKeyup.bind(this));
 
 		wrapper.appendChild(this.filter);
@@ -94,7 +96,7 @@ var Select = function(target) {
 
 	this.positionList = function() {
 		if(!this.isLarge) {
-			this.list.style.top = '-' + this.value.offsetTop + 'px';
+			this.list.style.top = '-' + this.selected.offsetTop + 'px';
 		}
 	};
 
@@ -104,11 +106,11 @@ var Select = function(target) {
 		for(var i = 0; i < this.options.length; i++) {
 			this.options[i].style.display = 'block';
 		}
-	}
+	};
 
 	this.closeList = function() {
 		this.list.classList.remove('open');
-	}
+	};
 
 	// EVENT HANDLERS
 
@@ -135,7 +137,8 @@ var Select = function(target) {
 	this.handleOptionClick = function(e) {
 		this.display.innerHTML = e.target.innerHTML;
 		this.target.value      = e.target.getAttribute('data-value');
-		this.value             = e.target;
+		this.value             = this.target.value;
+		this.selected          = e.target;
 
 		this.closeList();
 		this.clearFilter();
