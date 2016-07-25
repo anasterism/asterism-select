@@ -47,6 +47,7 @@ $select-accent: #e3af43;
 		box-shadow: 0px 2px 9px rgba(0,0,0,0.35);
 		overflow: hidden;
 		transition: opacity 0.2s cubic-bezier(0.39, 0.575, 0.565, 1);
+        z-index: 9999;
 
 		&.open {
 			height: auto;
@@ -101,7 +102,7 @@ $select-accent: #e3af43;
 		
 		.list ul {
 			max-height: 200px;
-			overflow: scroll;
+			overflow-y: scroll;
 		}
 	}
 
