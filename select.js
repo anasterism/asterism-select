@@ -44,7 +44,7 @@ var Select = function(target) {
 			this.display.innerHTML = this.value.innerHTML;
 		}
 
-		if(this.options.length > 10) {
+		if(this.options.length > 6) {
 			this.isLarge = true;
 			this.select.classList.add('large');
 		}
@@ -114,6 +114,10 @@ var Select = function(target) {
 
 	this.handleDisplayClick = function(e) {
 		this.list.classList.add('open');
+
+		if(this.isLarge) {
+			this.filter.focus();
+		}
 	};
 
 	this.handleFilterKeyup = function(e) {
