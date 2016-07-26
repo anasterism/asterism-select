@@ -24,7 +24,8 @@ gulp.task('lint', function() {
 
 	return gulp.src('./select.js')
 		.pipe(jshint())
-		.pipe(jshint.reporter('default'));
+		.pipe(jshint.reporter('jshint-stylish'))
+		.pipe(jshint.reporter('fail'));
 
 });
 
