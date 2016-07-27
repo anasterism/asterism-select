@@ -1,4 +1,4 @@
-var Select = function(target) {
+var Select = function(target, settings) {
 
 	this.target   = null;
 	this.select   = null;
@@ -8,6 +8,7 @@ var Select = function(target) {
 	this.isLarge  = false;
 	this.value    = null;
 	this.selected = null;
+	this.settings = null;
 
 	this.init = function() {
 		switch(typeof target) {
@@ -19,6 +20,7 @@ var Select = function(target) {
 				break;
 		}
 
+		this.settings = this.getSettings(settings);
 		this.buildSelect();
 
 		this.target.parentNode.replaceChild(this.select, this.target);
@@ -46,7 +48,10 @@ var Select = function(target) {
 			this.display.innerHTML = this.selected.innerHTML;
 		}
 
-		if(this.options.length > 6) {
+		if(
+			(this.settings.filtered === 'auto' && this.options.length >= this.settings.filter_threshold) ||
+			this.settings.filtered === true
+		) {
 			this.isLarge = true;
 			this.select.classList.add('large');
 		}
@@ -69,7 +74,7 @@ var Select = function(target) {
 
 		this.filter = document.createElement('input');
 		this.filter.type = 'text';
-		this.filter.setAttribute('placeholder','Filter List');
+		this.filter.setAttribute('placeholder',this.settings.filter_placeholder);
 		this.filter.addEventListener('keyup', this.handleFilterKeyup.bind(this));
 
 		wrapper.appendChild(this.filter);
@@ -110,6 +115,20 @@ var Select = function(target) {
 
 	this.closeList = function() {
 		this.list.classList.remove('open');
+	};
+
+	this.getSettings = function(settings) {
+		var defaults = {
+			filtered: 'auto',
+			filter_threshold: 8,
+			filter_placeholder: 'Filter options...'
+		};
+
+		for(var p in settings) {
+			defaults[p] = settings[p];
+		}
+
+		return defaults;
 	};
 
 	// EVENT HANDLERS
