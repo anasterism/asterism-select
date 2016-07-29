@@ -199,8 +199,10 @@ var Select = function(target, settings) {
 					break;
 				case 13:
 					this.target.value = this.options[this.highlighted].getAttribute('data-value');
+					this.selected = this.options[this.highlighted];
 					this.display.innerHTML = this.options[this.highlighted].innerHTML;
 					this.closeList();
+					setTimeout(this.positionList.bind(this), 200);
 					this.select.focus();
 					break;
 			}
