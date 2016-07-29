@@ -1,6 +1,6 @@
 {
   "name": "asterism-select",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "Intuitive custom select element written in pure javascript.",
   "main": "src/select.js",
   "scripts": {},
