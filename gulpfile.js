@@ -9,7 +9,7 @@ var rename   = require('gulp-rename');
 
 gulp.task('style', function() {
 
-	return sass('./select.scss', { style: 'compressed' })
+	return sass('./src/select.scss', { style: 'compressed' })
 		.pipe(prefixer({
 			browsers: ['last 20 versions']
 		}))
@@ -22,7 +22,7 @@ gulp.task('style', function() {
 
 gulp.task('lint', function() {
 
-	return gulp.src('./select.js')
+	return gulp.src('./src/select.js')
 		.pipe(jshint())
 		.pipe(jshint.reporter('jshint-stylish'))
 		.pipe(jshint.reporter('fail'));
@@ -31,7 +31,7 @@ gulp.task('lint', function() {
 
 gulp.task('brains', ['lint'], function() {
 
-	return gulp.src('./select.js')
+	return gulp.src('./src/select.js')
 		.pipe(uglify())
 		.pipe(rename('select.min.js'))
 		.pipe(gulp.dest('./dist'));
@@ -42,7 +42,7 @@ gulp.task('brains', ['lint'], function() {
 
 gulp.task('default', function() {
 
-	gulp.watch('./select.scss', ['style']);
-	gulp.watch('./select.js', ['brains']);
+	gulp.watch('./src/select.scss', ['style']);
+	gulp.watch('./src/select.js', ['brains']);
 
 });
