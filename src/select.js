@@ -242,3 +242,5 @@ var Select = function(target, settings) {
 	this.init();
 
 };
+
+window.Select=Select;
