@@ -189,7 +189,7 @@ var Select = function(target, settings) {
 	};
 
 	this.handleListKeydown = function(e) {
-		if(this.list === document.activeElement) {
+		if(this.list === document.activeElement.parentElement.parentElement) {
 			switch(e.keyCode) {
 				case 38:
 					this.highlightOption('up');
