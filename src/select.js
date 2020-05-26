@@ -125,7 +125,7 @@ var Select = function(target, settings) {
 	};
 
 	this.positionList = function() {
-		if(!this.isLarge) {
+		if(!this.isLarge && this.selected) {
 			this.list.style.top = '-' + this.selected.offsetTop + 'px';
 		}
 	};
