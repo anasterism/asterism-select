@@ -157,7 +157,9 @@ var Select = function(target, settings) {
 
 	this.closeList = function() {
 		this.list.classList.remove('open');
-		this.options[this.highlighted].classList.remove('hovered');
+		if (this.options.length) {
+			this.options[this.highlighted].classList.remove('hovered');
+		}
 	};
 
 	this.getSettings = function(settings) {
