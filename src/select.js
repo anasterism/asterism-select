@@ -10,13 +10,15 @@ var Select = function(target, settings) {
 	this.selected    = null;
 	this.settings    = null;
 	this.highlighted = null;
+	this.event       = document.createEvent("HTMLEvents");
+	this.event.initEvent("change", false, true);
 
-	this.init = function() {
-		switch(typeof target) {
+	this.init = function () {
+		switch (typeof target) {
 			case 'object':
 				this.target = target;
 				break;
-			case 'string': 
+			case 'string':
 				this.target = document.querySelector(target);
 				break;
 		}
@@ -80,7 +82,7 @@ var Select = function(target, settings) {
 
 	this.buildFilter = function() {
 		var wrapper = document.createElement('div');
-		    wrapper.classList.add('filter');
+		wrapper.classList.add('filter');
 
 		this.filter = document.createElement('input');
 		this.filter.type = 'text';
@@ -98,9 +100,9 @@ var Select = function(target, settings) {
 
 		for(var i = 0; i < options.length; i++) {
 			var li = document.createElement('li');
-			    li.setAttribute('data-value', options[i].value);
-			    li.innerHTML = options[i].innerHTML;
-			    li.addEventListener('click', this.handleOptionClick.bind(this));
+			li.setAttribute('data-value', options[i].value);
+			li.innerHTML = options[i].innerHTML;
+			li.addEventListener('click', this.handleOptionClick.bind(this));
 
 			ul.appendChild(li);
 			this.options.push(li);
@@ -123,7 +125,7 @@ var Select = function(target, settings) {
 	};
 
 	this.positionList = function() {
-		if(!this.isLarge) {
+		if(!this.isLarge && this.selected) {
 			this.list.style.top = '-' + this.selected.offsetTop + 'px';
 		}
 	};
@@ -155,7 +157,9 @@ var Select = function(target, settings) {
 
 	this.closeList = function() {
 		this.list.classList.remove('open');
-		this.options[this.highlighted].classList.remove('hovered');
+		if (this.options.length) {
+			this.options[this.highlighted].classList.remove('hovered');
+		}
 	};
 
 	this.getSettings = function(settings) {
@@ -227,6 +231,8 @@ var Select = function(target, settings) {
 		this.value             = this.target.value;
 		this.selected          = e.target;
 
+		this.target.dispatchEvent(this.event);
+
 		this.closeList();
 		this.clearFilter();
 
@@ -240,5 +246,4 @@ var Select = function(target, settings) {
 	};
 
 	this.init();
-
 };
