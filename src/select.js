@@ -193,7 +193,7 @@ var Select = function(target, settings) {
 	};
 
 	this.handleListKeydown = function(e) {
-		if(this.list === document.activeElement) {
+		if(this.list === document.activeElement.parentElement.parentElement) {
 			switch(e.keyCode) {
 				case 38:
 					this.highlightOption('up');
@@ -215,9 +215,10 @@ var Select = function(target, settings) {
 
 	this.handleFilterKeyup = function(e) {
 		var self = this;
-
-		this.options.filter(function(li) {
-			if(li.innerHTML.substring(0, self.filter.value.length).toLowerCase() == self.filter.value.toLowerCase()) {
+		var query=self.filter.value.toLowerCase();
+		var queryLength=self.filter.value.length;
+		this.options.filter(function(li) {		
+			if(li.innerHTML.toLowerCase().indexOf(query) !== -1) {
 				li.style.display = 'block';
 			} else {
 				li.style.display = 'none';
@@ -247,3 +248,5 @@ var Select = function(target, settings) {
 
 	this.init();
 };
+
+window.Select=Select;
