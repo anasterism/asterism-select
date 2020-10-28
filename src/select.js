@@ -13,6 +13,8 @@ var Select = function(target, settings) {
 	this.event       = document.createEvent("HTMLEvents");
 	this.event.initEvent("change", false, true);
 
+	this.arrFilteredOptions = [];
+
 	this.init = function () {
 		switch (typeof target) {
 			case 'object':
@@ -132,16 +134,22 @@ var Select = function(target, settings) {
 
 	this.highlightOption = function(dir) {
 		var next = null;
+
+		var arrFilteredOptions = this.arrFilteredOptions.length == 0 ? Object.keys( this.options ) : this.arrFilteredOptions;
+
+		var index = arrFilteredOptions.indexOf( this.highlighted );
+
 		switch(dir) {
 			case 'up':
-				next = (this.highlighted-1 < 0) ? this.highlighted : this.highlighted-1;
+				next = index == 0 ? arrFilteredOptions[ 0 ] : arrFilteredOptions[ index - 1 ];
 				break;
 			case 'down':
-				next = (this.highlighted+1 > this.options.length-1) ? this.highlighted : this.highlighted+1;
+				next = index == arrFilteredOptions.length -1 ? arrFilteredOptions[ arrFilteredOptions.length -1 ] : arrFilteredOptions[ index + 1 ];
 				break;
 			default:
 				next = this.highlighted;
 		}
+
 		this.options[this.highlighted].classList.remove('hovered');
 		this.options[next].classList.add('hovered');
 		this.highlighted = next;
@@ -153,6 +161,9 @@ var Select = function(target, settings) {
 		for(var i = 0; i < this.options.length; i++) {
 			this.options[i].style.display = 'block';
 		}
+
+		this.arrFilteredOptions = [];
+
 	};
 
 	this.closeList = function() {
@@ -177,7 +188,6 @@ var Select = function(target, settings) {
 	};
 
 	// EVENT HANDLERS
-
 	this.handleSelectKeydown = function(e) {
 		if (this.select === document.activeElement && e.keyCode == 32) {
 			this.toggleList();
@@ -193,7 +203,8 @@ var Select = function(target, settings) {
 	};
 
 	this.handleListKeydown = function(e) {
-		if(this.list === document.activeElement) {
+
+		if(this.list === document.activeElement.parentElement.parentElement) {
 			switch(e.keyCode) {
 				case 38:
 					this.highlightOption('up');
@@ -215,10 +226,14 @@ var Select = function(target, settings) {
 
 	this.handleFilterKeyup = function(e) {
 		var self = this;
+		var filterText = self.filter.value.toLowerCase();
 
-		this.options.filter(function(li) {
-			if(li.innerHTML.substring(0, self.filter.value.length).toLowerCase() == self.filter.value.toLowerCase()) {
+		this.arrFilteredOptions = [];
+		
+		this.options.filter(function(li, index) {
+			if( li.innerHTML.toLowerCase().indexOf( filterText ) > -1 ){
 				li.style.display = 'block';
+				self.arrFilteredOptions.push(index);
 			} else {
 				li.style.display = 'none';
 			}
@@ -247,3 +262,5 @@ var Select = function(target, settings) {
 
 	this.init();
 };
+
+window.Select=Select;
