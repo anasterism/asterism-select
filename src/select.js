@@ -186,6 +186,25 @@ var Select = function(target, settings) {
 		this.buildOptions();
 	}
 
+	this.setOption = function(value, option) {
+		var selectedOption;
+		if (option) {
+			selectedOption = option;
+		} else {
+			for (var i=0; i<this.options.length; i++) {
+				if (this.options[i].dataset.value === value) {
+					selectedOption = this.options[i];
+					break;
+				}
+			}
+		}
+
+		this.display.innerHTML = selectedOption.innerHTML;
+		this.target.value = selectedOption.getAttribute('data-value');
+		this.value = this.target.value;
+		this.selected = selectedOption;
+	}
+
 	// EVENT HANDLERS
 
 	this.handleSelectKeydown = function(e) {
@@ -236,10 +255,7 @@ var Select = function(target, settings) {
 	};
 
 	this.handleOptionClick = function(e) {
-		this.display.innerHTML = e.target.innerHTML;
-		this.target.value      = e.target.getAttribute('data-value');
-		this.value             = this.target.value;
-		this.selected          = e.target;
+		this.setOption(e.target.getAttribute('data-value'), e.target);
 
 		this.target.dispatchEvent(this.event);
 
