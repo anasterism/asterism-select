@@ -4,6 +4,7 @@ var Select = function(target, settings) {
 	this.select      = null;
 	this.display     = null;
 	this.list        = null;
+	this.ul          = null;
 	this.options     = [];
 	this.isLarge     = false;
 	this.value       = null;
@@ -94,6 +95,10 @@ var Select = function(target, settings) {
 	};
 
 	this.buildOptions = function() {
+		if (this.ul) {
+			this.list.removeChild(this.ul);
+		}
+
 		var ul = document.createElement('ul');
 
 		var options = this.target.querySelectorAll('option');
@@ -108,7 +113,8 @@ var Select = function(target, settings) {
 			this.options.push(li);
 		}
 
-		this.list.appendChild(ul);
+		this.ul = ul;
+		this.list.appendChild(this.ul);
 	};
 
 	this.toggleList = function() {
@@ -175,6 +181,10 @@ var Select = function(target, settings) {
 
 		return defaults;
 	};
+
+	this.update = function() {
+		this.buildOptions();
+	}
 
 	// EVENT HANDLERS
 
